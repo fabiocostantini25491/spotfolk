@@ -18,6 +18,24 @@
   history.replaceState(null, "", location.pathname + location.search + (to ? "#" + to.replace(/[^\w-]/g, "") : ""));
 })();
 </script>
+<script>
+/* ?notrack: this browser stops counting in Umami (for Fabio's own visits). ?track turns counting back on. */
+(function () {
+  var q = new URLSearchParams(location.search), msg = "";
+  try {
+    if (q.has("notrack")) { localStorage.setItem("umami.disabled", "1"); msg = "This browser is no longer counted in the statistics."; }
+    else if (q.has("track")) { localStorage.removeItem("umami.disabled"); msg = "This browser is counted again in the statistics."; }
+  } catch (e) {}
+  if (!msg) return;
+  q.delete("notrack"); q.delete("track");
+  history.replaceState(null, "", location.pathname + (q.toString() ? "?" + q : "") + location.hash);
+  addEventListener("DOMContentLoaded", function () {
+    var t = document.createElement("div"); t.textContent = msg; t.setAttribute("role", "status");
+    t.style.cssText = "position:fixed;z-index:3000;left:50%;bottom:24px;transform:translateX(-50%);padding:12px 18px;border-radius:12px;background:#0d1b2c;border:1px solid rgba(255,190,122,.4);color:#ffbe7a;font:600 14px system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:calc(100vw - 32px);text-align:center";
+    document.body.appendChild(t); setTimeout(function () { t.remove(); }, 5000);
+  });
+})();
+</script>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="2ca8d3a5-91c1-4544-a327-d8469e3e4313" data-tag="spotfolk" data-domains="spotfolk.eu,www.spotfolk.eu"></script>
 <link rel="icon" href="https://fabiocostaph.com/img/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
