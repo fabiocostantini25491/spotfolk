@@ -995,7 +995,7 @@ body:not(.is-folk) .only-folk{display:none!important}
     $("#wpPickS").textContent = f[4] + " You can add more folk later.";
     $("#wpJoin").textContent = `Join as ${f[1]} folk`;
     try { localStorage.setItem("fcph-joinfolk", f[0]); } catch {}
-    try { window.umami && umami.track("Wayfolk test: folk picked", { folk: f[0] }); } catch {}
+    try { window.umami && umami.track("SpotFolk landing: folk picked", { folk: f[0] }); } catch {}
   });
 
   startFolk().then(() => loadSpots());
