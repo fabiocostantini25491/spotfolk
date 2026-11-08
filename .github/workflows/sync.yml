@@ -1,0 +1,26 @@
+name: Sync from fabiocostaph.com
+# spotfolk.eu runs the same code as fabiocostaph.com (it shows only SpotFolk on this domain).
+# Every 30 minutes, and on demand, the latest version is copied here and published.
+on:
+  schedule: [{ cron: "7,37 * * * *" }]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: sync
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with: { repository: fabiocostantini25491/fabio-costa-ph, path: _src }
+      - run: ./sync.sh _src
+      - name: Publish if something changed
+        run: |
+          rm -rf _src
+          git add -A
+          if git diff --cached --quiet; then echo "Already up to date"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Sync from fabiocostaph.com"
+          git push

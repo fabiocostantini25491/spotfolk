@@ -1,0 +1,334 @@
+{
+  "viaggi": [
+    {
+      "nome": "Dolomiti",
+      "id": "Dolomiti",
+      "paese": "Italia",
+      "lat": "46.64635034253251",
+      "lon": "11.688709644085456",
+      "categoria": "Paesaggi",
+      "sottosezioni": [
+        {
+          "nome": "Passo Sella",
+          "lat": "46.50815066109146",
+          "lon": "11.764696274034279",
+          "categoria": "Paesaggi",
+          "immagini": [
+            "/img/foto/fb-untitled-4-2026-11-01t00-40-45-405-1.jpg",
+            "/img/foto/fb-untitled-2-2025-11-30t18-03-23-337.jpg"
+          ]
+        },
+        {
+          "nome": "Saint Magdalene",
+          "lat": "46.643512613653414",
+          "lon": "11.711317830267102",
+          "immagini": [
+            "/img/foto/fb-untitled-7-jpg-2-2026-10-30t09-12-09-547.jpg"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "Val d'Orcia",
+      "id": "Val d'Orcia",
+      "paese": "Italia",
+      "lat": "43.066491564587984",
+      "lon": " 11.628660394255544",
+      "categoria": "Paesaggi",
+      "sottosezioni": [
+        {
+          "nome": "Poggio Covili",
+          "lat": "43.02195429897684",
+          "lon": "11.636696486523737",
+          "categoria": "Paesaggi",
+          "immagini": [
+            "/img/foto/fb-untitled-3-jpg-3-jpg-4-2026-09-02t15-47-14-633.jpg",
+            "/img/foto/fb-untitled-7-jpg-2-2026-08-30t20-38-50-040.jpg"
+          ]
+        },
+        {
+          "nome": "Chiesa Vitaleta",
+          "lat": "43.07055133754431",
+          "lon": "11.632802515773019",
+          "categoria": "Paesaggi",
+          "immagini": [
+            "/img/foto/ftzh8029-2026-09-18t15-57-51-767.jpg"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "Lerici",
+      "id": "Lerici",
+      "paese": "Italia",
+      "lat": "44.073849174457656",
+      "lon": "9.90963477602486",
+      "categoria": "Paesaggi",
+      "foto": [
+        {
+          "titolo": "Lerici",
+          "immagine": "/img/foto/fbuntitled-3jpg-3-2025-11-30t180326578-2026-10-24t162703991.jpg",
+          "categoria": "Urban",
+          "lat": "44.07420417975962 ",
+          "lon": "9.911285292927417"
+        },
+        {
+          "titolo": "Lerici",
+          "immagine": "/img/foto/fb-untitled-4-2026-10-25t21-42-21-521.jpg",
+          "categoria": "Urban"
+        }
+      ]
+    },
+    {
+      "nome": "Roma",
+      "id": "Roma",
+      "lat": "41.89078521973111",
+      "lon": "12.490868334333522",
+      "categoria": "Paesaggi",
+      "foto": [
+        {
+          "titolo": "Tempio di Esculapio",
+          "immagine": "/img/foto/fb-untitled-2-2025-11-30t18-03-23-337-2026-09-27t12-10-52-173-1.jpg",
+          "categoria": "Urban",
+          "lat": "41.914986406133764",
+          "lon": "12.483406126535264"
+        },
+        {
+          "titolo": "Tempio di Esculapio",
+          "immagine": "/img/foto/fb-untitled-4-2026-10-01t19-30-17-349.jpg",
+          "categoria": "Urban",
+          "lat": "41.91458721878449",
+          "lon": "12.483620703241188"
+        },
+        {
+          "titolo": "Via di Sant'Onofrio",
+          "immagine": "/img/foto/fb-untitled-3-jpg-3-jpg-4-2026-10-14t14-54-08-339-1.jpg",
+          "categoria": "Urban",
+          "lat": "41.89832285800818 ",
+          "lon": "12.461734579877465"
+        },
+        {
+          "titolo": "Pantheon",
+          "immagine": "/img/foto/fbuntitled-2-2025-11-30t180323337-2026-10-13t214818730-1.jpg",
+          "categoria": "Urban",
+          "lat": "41.89978420908338",
+          "lon": "12.476436070851417"
+        },
+        {
+          "titolo": "Castel Sant'Angelo",
+          "immagine": "/img/foto/fbuntitled-3jpg-3-2025-11-30t180326578-2026-10-06t233736893-1.jpg",
+          "categoria": "Urban",
+          "lat": "41.90105734904662",
+          "lon": " 12.46651935122761"
+        },
+        {
+          "titolo": "Via della Maschere d'Oro",
+          "immagine": "/img/foto/fb-untitled-4-2026-10-08t21-06-40-069.jpg",
+          "categoria": "Urban",
+          "lat": "41.90086769096363",
+          "lon": " 12.47153222023495"
+        },
+        {
+          "titolo": "Fontana di Trevi",
+          "immagine": "/img/foto/fb-untitled-3-jpg-3-2025-11-30t18-03-26-578-2026-08-28t15-40-33-154.jpg",
+          "categoria": "Urban",
+          "lat": "41.90079542843316 ",
+          "lon": "12.483154489721572"
+        },
+        {
+          "titolo": "Via Condotti",
+          "immagine": "/img/foto/fb-untitled-4-2026-08-25t21-09-10-692.jpg",
+          "categoria": "Urban",
+          "lat": "41.90458351652289 ",
+          "lon": "12.479026962236805"
+        },
+        {
+          "titolo": "Foro di Traiano",
+          "immagine": "/img/foto/fb-untitled-7-jpg-2-2026-08-27t14-05-35-340.jpg",
+          "categoria": "Urban",
+          "lat": "41.89528972634797",
+          "lon": "12.48521626098753"
+        }
+      ]
+    },
+    {
+      "nome": "Circeo",
+      "id": "Circeo",
+      "paese": "Italia",
+      "lat": "41.23954266491015",
+      "lon": "13.096020787882697",
+      "categoria": "Paesaggi",
+      "foto": [
+        {
+          "titolo": "Punta Rossa",
+          "immagine": "/img/foto/fb-untitled-3-jpg-3-2025-11-30t18-03-26-578-2026-09-25t23-46-21-888-1.jpg",
+          "categoria": "Paesaggi"
+        }
+      ]
+    },
+    {
+      "nome": "Firenze",
+      "id": "Firenze",
+      "paese": "Italia",
+      "lat": "43.77893702238663 ",
+      "lon": "11.247830983178837",
+      "categoria": "Paesaggi",
+      "foto": [
+        {
+          "titolo": "Terrazza Michelangelo",
+          "immagine": "/img/foto/img-3676-2026-10-16t17-06-28-329-1.jpg",
+          "categoria": "Urban",
+          "lat": "43.763177445490285",
+          "lon": "11.26428772722712"
+        }
+      ]
+    },
+    {
+      "nome": "Madeira",
+      "id": "Madeira",
+      "paese": "Portugal",
+      "lat": "32.79286912275502",
+      "lon": " -16.84900668005293",
+      "categoria": "Paesaggi",
+      "sottosezioni": [
+        {
+          "nome": "Fajal",
+          "lat": "32.78203751556815",
+          "lon": " -16.859906739199907",
+          "immagini": [
+            "/img/foto/fb-untitled-7-jpg-2.jpg"
+          ]
+        },
+        {
+          "nome": "Monte Palace",
+          "lat": "32.67416739588786 ",
+          "lon": "-16.901930123618357",
+          "categoria": "Paesaggi",
+          "immagini": [
+            "/img/foto/ftzh8029-2026-11-05t23-41-09-783.jpg"
+          ]
+        },
+        {
+          "nome": "Fanal ",
+          "lat": "32.812594841609524",
+          "lon": "-17.14338906585004",
+          "immagini": [
+            "/img/foto/fb-untitled-4.jpg"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "Crete senesi",
+      "id": "Crete senesi",
+      "paese": "Italia",
+      "lat": "43.28424464488069",
+      "lon": "11.520084172944319",
+      "categoria": "Paesaggi",
+      "sottosezioni": [
+        {
+          "nome": "Baccoleno",
+          "lat": "43.20049493142335",
+          "lon": " 11.59014495313673",
+          "immagini": [
+            "/img/foto/ftzh8029-2026-09-04t14-12-52-509.jpg"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "Cinque Terre",
+      "id": "Cinque Terre",
+      "paese": "Italia",
+      "lat": "44.12424539513246",
+      "lon": "9.702674609175643",
+      "categoria": "Urban",
+      "sottosezioni": [
+        {
+          "nome": "Vernazza",
+          "lat": "44.13506157177317",
+          "lon": "9.682956477868338",
+          "categoria": "Urban",
+          "immagini": [
+            "/img/foto/fb-untitled-4-2026-09-15t22-23-35-239.jpg",
+            "/img/foto/fb-untitled-3-jpg-3-jpg-4-2026-09-11t12-51-01-862.jpg"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "Venezia",
+      "id": "Venezia",
+      "paese": "Italia",
+      "lat": "45.439158030148604",
+      "lon": "12.325738842534337",
+      "categoria": "Paesaggi",
+      "foto": [
+        {
+          "titolo": "Ponte delle Piscine",
+          "immagine": "/img/foto/fb-dsc09478-2025-03-22t22-04-21-019-copy.jpg",
+          "categoria": "Urban",
+          "lat": "45.4335121839849",
+          "lon": "12.33508671333569"
+        }
+      ]
+    },
+    {
+      "nome": "Terminillo",
+      "id": "Terminillo",
+      "paese": "Italia",
+      "lat": "42.466770271675635",
+      "lon": "13.00066261265056",
+      "categoria": "Paesaggi",
+      "foto": [
+        {
+          "titolo": "Monte Terminillo",
+          "immagine": "/img/foto/dsc02470-copy-2026-09-16t18-41-11-059.jpg",
+          "categoria": "Paesaggi",
+          "lat": "42.46898851258483",
+          "lon": "13.013929442891316"
+        },
+        {
+          "titolo": "Chiesa di San Vittorino",
+          "immagine": "/img/foto/dsc02470-copy-2026-09-20t21-35-34-566.jpg",
+          "categoria": "Paesaggi",
+          "lat": "42.3764013741801",
+          "lon": "12.98853072158335"
+        }
+      ]
+    },
+    {
+      "nome": "Praga",
+      "id": "Praga",
+      "paese": "Repubblica Ceca",
+      "lat": "50.085123995567095",
+      "lon": "14.413325838640523",
+      "categoria": "Urban",
+      "foto": [
+        {
+          "titolo": "Praga",
+          "immagine": "/img/foto/dsc02470-copy-2026-08-11t15-00-51-408.jpg",
+          "categoria": "Urban",
+          "lat": "50.08683129157076",
+          "lon": "14.39053973172318"
+        }
+      ]
+    },
+    {
+      "nome": "Monti della Laga",
+      "id": "Monti della Laga",
+      "lat": "42.601377825518995",
+      "lon": "13.435339527129845",
+      "categoria": "Paesaggi",
+      "foto": [
+        {
+          "titolo": "Cascata della Morricana",
+          "immagine": "/img/foto/fb-untitled-3-jpg-3-2025-11-30t18-03-26-578-2026-08-12t00-07-59-098.jpg",
+          "categoria": "Paesaggi",
+          "lat": "42.66086307116666",
+          "lon": "13.402759940634063"
+        }
+      ]
+    }
+  ]
+}
