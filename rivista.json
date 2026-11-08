@@ -1,0 +1,23 @@
+{
+  "month": "2026-11",
+  "number": 1,
+  "label": "November 2026",
+  "stories": 3,
+  "pages": 14,
+  "until": "2026-12-31",
+  "file": "field-notes-from-planet-earth-01-2026-11.pdf",
+  "contents": [
+    {
+      "title": "From 8,000 Spots to a World of Folks",
+      "page": 3
+    },
+    {
+      "title": "Beyond Detail: Depth, Three-Dimensionality and Photographic Perception",
+      "page": 6
+    },
+    {
+      "title": "Building FabioCostaPh: From an Idea to a Website",
+      "page": 10
+    }
+  ]
+}
