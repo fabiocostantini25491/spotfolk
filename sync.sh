@@ -6,7 +6,7 @@ SRC="${1:-_src}"
 python3 - "$SRC" <<'PY'
 import os, shutil, sys
 src = sys.argv[1]
-KEEP = {".git", ".github", "_src", "CNAME", "README.md", "sync.sh", "robots.txt"}
+KEEP = {".git", ".github", "_src", "CNAME", "README.md", "sync.sh", "robots.txt", "og-spotfolk.jpg"}
 SKIP = KEEP | {"sitemap.xml", ".pages.yml", "pages-yml-da-copiare.txt", "spotfolk-prova.html", "wayfolk-prova.html"}
 for name in os.listdir("."):            # remove what is no longer in the site (never this repo's own files)
     if name not in KEEP and not os.path.exists(os.path.join(src, name)):
@@ -29,5 +29,12 @@ s = re.sub(r'(<meta property="og:title" content=")[^"]*', r"\1SpotFolk — the c
 s = re.sub(r'(<meta property="og:description" content=")[^"]*', r"\1Every place here was signed by someone who's been. Find your folk — free.", s, count=1)
 s = re.sub(r'(<meta property="og:url" content=")[^"]*', r"\1https://spotfolk.eu/", s, count=1)
 s = re.sub(r'(<link rel="canonical" href=")[^"]*', r"\1https://spotfolk.eu/", s, count=1)
+IMG = "https://spotfolk.eu/og-spotfolk.jpg?v=1"
+s = re.sub(r'(<meta property="og:site_name" content=")[^"]*', r"\1SpotFolk", s, count=1)
+s = re.sub(r'(<meta property="og:image" content=")[^"]*', r"\g<1>" + IMG, s, count=1)
+s = re.sub(r'(<meta property="og:image:alt" content=")[^"]*', r"\1SpotFolk — the map, signed by the folk", s, count=1)
+s = re.sub(r'(<meta name="twitter:title" content=")[^"]*', r"\1SpotFolk — the community map", s, count=1)
+s = re.sub(r'(<meta name="twitter:description" content=")[^"]*', r"\1Every place here was signed by someone who's been. Find your folk — free.", s, count=1)
+s = re.sub(r'(<meta name="twitter:image" content=")[^"]*', r"\g<1>" + IMG, s, count=1)
 open(p, "w", encoding="utf-8").write(s)
 PY

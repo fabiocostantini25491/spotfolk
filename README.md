@@ -8,4 +8,4 @@ Accounts are the same on both sites.
 
 Don't edit the site files here: change them in `fabio-costa-ph`. The workflow *Sync from fabiocostaph.com*
 copies them here every 30 minutes (or run it by hand from the Actions tab). Files that belong only to this repo:
-`CNAME`, `README.md`, `robots.txt`, `sync.sh`, `.github/`.
+`CNAME`, `README.md`, `robots.txt`, `sync.sh`, `og-spotfolk.jpg` (link preview), `.github/`.
