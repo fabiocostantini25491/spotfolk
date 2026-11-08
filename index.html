@@ -8,6 +8,16 @@
 <meta property="og:title" content="SpotFolk — the community map">
 <meta property="og:description" content="Every place here was signed by someone who's been. Find your folk — free.">
 <meta property="og:image" content="https://fabiocostaph.com/img/spotfolk-logo.png">
+<script>
+/* single login with fabiocostaph.com: a link from there can carry a one-time session of its own (#sfh=…).
+   It is saved here and removed from the address at once, so it never stays in the bar or in the history. */
+(function () {
+  var h = location.hash.slice(1); if (h.indexOf("sfh=") < 0) return;
+  var p = new URLSearchParams(h), rt = p.get("sfh"), to = p.get("to") || "";
+  try { if (rt) localStorage.setItem("fcph-session", JSON.stringify({ access_token: "", refresh_token: rt, expires_at: 0 })); } catch (e) {}
+  history.replaceState(null, "", location.pathname + location.search + (to ? "#" + to.replace(/[^\w-]/g, "") : ""));
+})();
+</script>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="2ca8d3a5-91c1-4544-a327-d8469e3e4313" data-domains="spotfolk.eu,www.spotfolk.eu"></script>
 <link rel="icon" href="https://fabiocostaph.com/img/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -167,10 +177,10 @@ footer a{color:var(--soft)}
   .bar{padding:8px 16px;gap:8px 10px;flex-wrap:wrap}
   .bar nav{order:3;flex-basis:100%;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
   .bar nav a{flex:0 0 auto;padding:8px 12px;font-size:14px}
-  .bar .acts .btn-line{display:none}
+  .bar .acts .btn{min-height:38px;padding:0 13px;font-size:13.5px}
   .stage,section{scroll-margin-top:118px}
   .bar .acts{margin-left:auto}
-  .back{padding:7px 16px}.back span{font-size:0}.back span b{font-size:12px}
+  .back{padding:7px 16px}.back span{font-size:0}.back span b{font-size:12px}.back #wpFolkLinks a{font-size:12px;white-space:nowrap}.back #wpViewAs{display:none}
   .wrap{padding:0 20px}
   :root{--bars:148px}
   .tools{left:12px;right:12px;top:12px}
@@ -304,6 +314,43 @@ body:not(.is-folk) .only-folk{display:none!important}
 .pp-tip{margin:0 0 8px;padding:8px 10px;border-radius:10px;background:var(--bg2);font:italic 500 16px/1.3 var(--serif);color:var(--head)}
 .pp-tip small{display:block;font:normal 400 11px var(--sans);color:var(--muted);margin-top:3px}
 .viewas{color:var(--warm)}
+/* the SpotFolk door: log in / become folk, here on spotfolk.eu */
+.door{width:min(480px,calc(100vw - 24px));max-height:calc(100svh - 24px);padding:0;border:1px solid var(--wline);border-radius:22px;background:linear-gradient(180deg,#101d2e,#08121f 60%);color:var(--text);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.door::backdrop{background:rgba(2,6,12,.72);backdrop-filter:blur(4px)}
+.door-in{position:relative;padding:26px 26px 22px}
+.door-x{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--soft);cursor:pointer;font-size:20px;line-height:1}
+.door-x:hover{color:#fff;border-color:rgba(230,236,243,.4)}
+.door-logo{width:92px;height:auto;margin:0 0 6px}
+.door h2{margin:0;font:600 32px/1.05 var(--serif);color:var(--head)}.door h2 em{font-style:italic;color:var(--warm)}
+.door .sub{margin:8px 0 16px;color:var(--soft);font-size:14.5px}
+.door-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin:0 0 18px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.door-tabs button{min-height:40px;border:0;border-radius:999px;background:transparent;color:var(--soft);font-weight:700;font-size:14px;cursor:pointer}
+.door-tabs button[aria-selected="true"]{background:var(--fire);color:var(--ink)}
+.door form{display:grid;gap:12px}.door form[hidden]{display:none}
+.door label.f{display:grid;gap:5px;font:500 12px/1 var(--cap);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.door input[type=email],.door input[type=password],.door input[type=text]{width:100%;min-height:46px;padding:0 14px;border-radius:12px;border:1px solid rgba(156,200,255,.22);background:rgba(2,6,12,.55);color:var(--head);font:400 16px var(--sans)}
+.door input:focus{outline:none;border-color:var(--warm);box-shadow:0 0 0 3px rgba(242,140,30,.2)}
+.door .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.door fieldset{margin:0;padding:0;border:0}
+.door legend{margin-bottom:8px;font:500 12px/1 var(--cap);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.door-folks{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.door-folks label{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 4px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.03);cursor:pointer;font-size:12.5px;font-weight:700;text-align:center}
+.door-folks input{position:absolute;opacity:0;pointer-events:none}
+.door-folks span{font-size:20px;line-height:1}
+.door-folks label:has(input:checked){border-color:var(--warm);background:rgba(242,140,30,.14);color:var(--head)}
+.door-folks label:has(input:focus-visible){outline:2px solid var(--warm);outline-offset:2px}
+.door .check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--soft);line-height:1.45}
+.door .check input{width:18px;height:18px;margin-top:2px;accent-color:var(--fire);flex:none}
+.door details{font-size:13px;color:var(--soft);border-left:2px solid var(--wline);padding-left:12px}
+.door summary{cursor:pointer;color:var(--warm);font-weight:700}
+.door details ol{margin:8px 0 0;padding-left:18px}.door details li{margin:3px 0}
+.door .btn{width:100%;min-height:52px;font-size:16px}
+.door .btn[disabled]{opacity:.6;cursor:wait}
+.door .msg{margin:0;min-height:1.2em;font-size:14px;color:var(--soft)}.door .msg.warn{color:#ffb3a7}.door .msg.ok{color:#9fe3c8}
+.door .found{margin:0;font-size:13.5px;color:var(--warm)}
+.door .fine{margin:2px 0 0;font-size:12.5px;color:var(--muted);text-align:center}
+.door .fine a{color:var(--soft)}
+@media (max-width:520px){.door-in{padding:22px 18px 18px}.door h2{font-size:28px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero-card,.tomap{transition:none}}
 </style>
 </head>
@@ -311,7 +358,7 @@ body:not(.is-folk) .only-folk{display:none!important}
 
 <div class="back">
   <a href="https://fabiocostaph.com/"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><img src="https://fabiocostaph.com/img/logo.png" alt="">Back to Fabio Costa Ph</a>
-  <span><a class="viewas" id="wpViewAs" href="?guest" hidden>See it as a visitor</a> · SpotFolk is a community born from the map of photographer Fabio Costantini</span>
+  <span><span id="wpFolkLinks" hidden><a class="viewas" id="wpViewAs" href="?guest">See it as a visitor</a> · <a class="viewas" href="#logout" id="wpLogout">Log out</a> · </span>SpotFolk is a community born from the map of photographer Fabio Costantini</span>
 </div>
 
 <header class="bar">
@@ -332,7 +379,7 @@ body:not(.is-folk) .only-folk{display:none!important}
   </nav>
   <div class="acts only-folk"><a class="me-btn" href="https://fabiocostaph.com/#spotfolk" id="wpMeBtn"><i id="wpMeI">F</i><span>Open SpotFolk</span></a></div>
   <div class="acts only-guest">
-    <a class="btn btn-line" href="https://fabiocostaph.com/#spotfolk">Log in</a>
+    <a class="btn btn-line" href="#login" data-auth="login">Log in</a>
     <a class="btn btn-fire" href="#folk">Become folk</a>
   </div>
 </header>
@@ -409,7 +456,7 @@ body:not(.is-folk) .only-folk{display:none!important}
       <div class="pick-box" aria-live="polite">
         <p class="l" id="wpPickL">Tap the way you travel.</p>
         <p class="s" id="wpPickS">Your folk becomes your voice on the map. You can belong to more than one.</p>
-        <a class="btn btn-fire" id="wpJoin" href="https://fabiocostaph.com/#join">Become folk</a>
+        <a class="btn btn-fire" id="wpJoin" href="#become" data-auth="join">Become folk</a>
       </div>
     </div>
   </section>
@@ -468,10 +515,53 @@ body:not(.is-folk) .only-folk{display:none!important}
       <h2 class="h2">The fire is lit. <em>Pull up a seat.</em></h2>
       <p>Leave no trace, protect fragile places, respect people, support local, share honestly, be kind. That's the whole code.</p>
       <a class="btn btn-fire" href="#folk" style="min-height:56px;padding:0 30px;font-size:17px">Become folk — it's free</a>
-      <a href="https://fabiocostaph.com/#spotfolk">Already folk? Log in</a>
+      <a href="#login" data-auth="login">Already folk? Log in</a>
     </div>
   </section>
 </main>
+
+<dialog class="door" id="door" aria-labelledby="doorTitle">
+  <div class="door-in">
+    <button type="button" class="door-x" data-doorclose aria-label="Close">×</button>
+    <img class="door-logo" src="https://fabiocostaph.com/img/spotfolk-logo.png" alt="SpotFolk" width="640" height="365">
+    <h2 id="doorTitle"></h2>
+    <p class="sub" id="doorSub"></p>
+    <div class="door-tabs" role="tablist">
+      <button type="button" role="tab" data-doortab="login" aria-selected="true">Log in</button>
+      <button type="button" role="tab" data-doortab="join" aria-selected="false">Become folk</button>
+    </div>
+    <form id="doorLogin" novalidate>
+      <label class="f">Email<input id="dlEmail" type="email" autocomplete="username" placeholder="you@example.com" required></label>
+      <label class="f">Password<input id="dlPass" type="password" autocomplete="current-password" required></label>
+      <button class="btn btn-fire" type="submit">Log in →</button>
+      <p class="msg" role="status"></p>
+      <p class="fine">Same account as fabiocostaph.com. Forgot your password? <a href="mailto:fabio.costantini25491@gmail.com?subject=SpotFolk%20password">Write to me</a> and I'll reset it.</p>
+    </form>
+    <form id="doorJoin" novalidate hidden>
+      <div class="row2">
+        <label class="f">First name<input id="djFirst" type="text" autocomplete="given-name" maxlength="60" required></label>
+        <label class="f">Last name<input id="djLast" type="text" autocomplete="family-name" maxlength="60" required></label>
+      </div>
+      <label class="f">Email<input id="djEmail" type="email" autocomplete="email" placeholder="you@example.com" required></label>
+      <label class="f">Password<input id="djPass" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required></label>
+      <fieldset><legend>Your folk · pick all that fit</legend><div class="door-folks" id="djFolks"></div></fieldset>
+      <p class="found" id="djFound" hidden></p>
+      <details><summary>Our code, in seven lines</summary><ol>
+        <li><b>Leave no trace.</b> Take only photos, leave only footprints.</li>
+        <li><b>Protect fragile places.</b> No geotags where a place is marked fragile.</li>
+        <li><b>Respect people and property.</b> Ask before private land, keep it quiet.</li>
+        <li><b>Support local.</b> Eat, sleep and buy local when you can.</li>
+        <li><b>Share honestly.</b> Your own photos, real prices, true reports.</li>
+        <li><b>Be kind.</b> Reviews describe places, not people.</li>
+        <li><b>Pass it on fairly.</b> Meet in public, never pay in advance: deals are between you.</li>
+      </ol></details>
+      <label class="check"><input type="checkbox" id="djOk"><span>I accept the code, the <a href="https://fabiocostaph.com/#terms" target="_blank" rel="noopener">terms</a> and the <a href="https://fabiocostaph.com/#privacy" target="_blank" rel="noopener">privacy policy</a>. I'm 16 or older.</span></label>
+      <button class="btn btn-fire" type="submit">Become folk — free →</button>
+      <p class="msg" role="status"></p>
+      <p class="fine">One account for spotfolk.eu and fabiocostaph.com.</p>
+    </form>
+  </div>
+</dialog>
 
 <footer>
   <div class="wrap">
@@ -756,7 +846,7 @@ body:not(.is-folk) .only-folk{display:none!important}
       me = m;
     } catch { return false; }
     document.body.classList.add("is-folk");
-    $("#wpViewAs").hidden = false;
+    $("#wpFolkLinks").hidden = false;
     const first = (me.first_name || "").trim();
     $("#wpHello").innerHTML = first ? `Welcome back, <em>${esc(first)}.</em>` : "Welcome back, <em>folk.</em>";
     $("#wpMeI").textContent = (first[0] || "F").toUpperCase();
@@ -997,6 +1087,130 @@ body:not(.is-folk) .only-folk{display:none!important}
     try { localStorage.setItem("fcph-joinfolk", f[0]); } catch {}
     try { window.umami && umami.track("SpotFolk landing: folk picked", { folk: f[0] }); } catch {}
   });
+
+  /* ---------- the door: log in and sign up here, on spotfolk.eu (same Supabase accounts as fabiocostaph.com) ---------- */
+  const door = $("#door"), HANDOFF = "fcph-handoff";
+  const FOLKS = [["photo", "📷", "Photo"], ["hike", "🥾", "Hiker"], ["slow", "🎒", "Backpacker"], ["road", "🚐", "Road trip"], ["nomad", "💻", "Nomad"], ["food", "🍝", "Foodie"]];
+  async function auth(path, body) {
+    const r = await fetch(SB + "/auth/v1/" + path, { method: "POST", headers: { apikey: KEY, "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    let d = null; try { d = await r.json(); } catch {}
+    if (!r.ok) throw new Error((d && (d.msg || d.error_description || d.message || d.error)) || String(r.status));
+    return d;
+  }
+  const keep = d => ({ access_token: d.access_token, refresh_token: d.refresh_token, expires_at: Date.now() + d.expires_in * 1000 });
+  // a second, separate session for fabiocostaph.com: handed over once, on the first link there (single login)
+  async function spare(email, password) {
+    try { const d = await auth("token?grant_type=password", { email, password }); localStorage.setItem(HANDOFF, d.refresh_token); } catch {}
+  }
+  function openDoor(tab) {
+    const picked = (() => { try { return localStorage.getItem("fcph-joinfolk") || ""; } catch { return ""; } })();
+    $("#djFolks").innerHTML = FOLKS.map(([k, i, n]) => `<label><input type="checkbox" value="${k}"${k === picked ? " checked" : ""}><span>${i}</span>${n}</label>`).join("");
+    setTab(tab);
+    if (!door.open) door.showModal();
+    try { window.umami && umami.track("SpotFolk door: " + tab); } catch {}
+  }
+  function setTab(tab) {
+    const join = tab === "join";
+    $("#doorTitle").innerHTML = join ? "Pull up a seat, <em>folk.</em>" : "Welcome back, <em>folk.</em>";
+    $("#doorSub").textContent = join ? "Free, one minute. Sign places, read the tips, get your passport." : "Log in to see the signatures and the tips on every place.";
+    door.querySelectorAll("[data-doortab]").forEach(b => b.setAttribute("aria-selected", String(b.dataset.doortab === tab)));
+    $("#doorLogin").hidden = join; $("#doorJoin").hidden = !join;
+    door.querySelectorAll(".msg").forEach(m => { m.textContent = ""; m.className = "msg"; });
+    setTimeout(() => (join ? $("#djFirst") : $("#dlEmail")).focus(), 30);
+  }
+  door.querySelectorAll("[data-doortab]").forEach(b => b.addEventListener("click", () => setTab(b.dataset.doortab)));
+  door.querySelector("[data-doorclose]").addEventListener("click", () => door.close());
+  door.addEventListener("click", e => { if (e.target === door) door.close(); });
+  document.addEventListener("click", e => {
+    const a = e.target.closest("[data-auth]"); if (!a) return;
+    e.preventDefault(); openDoor(a.dataset.auth);
+  });
+  if (/^#(login|become)$/.test(location.hash) && !session) openDoor(location.hash === "#login" ? "login" : "join");
+  const okMail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const busy = (f, on, text) => { const b = f.querySelector("button[type=submit]"); b.disabled = on; if (text) b.textContent = text; };
+  function arrive() {
+    // the page re-opens as folk: passport, signatures and tips
+    history.replaceState(null, "", location.pathname + "#map");
+    location.reload();
+  }
+  $("#doorLogin").addEventListener("submit", async e => {
+    e.preventDefault();
+    const f = e.currentTarget, msg = f.querySelector(".msg"), email = $("#dlEmail").value.trim(), pass = $("#dlPass").value;
+    msg.className = "msg warn";
+    if (!okMail(email)) return void (msg.textContent = "Please enter a valid email address.");
+    if (!pass) return void (msg.textContent = "Please enter your password.");
+    busy(f, true, "Logging in…"); msg.className = "msg"; msg.textContent = "";
+    try {
+      const d = await auth("token?grant_type=password", { email, password: pass });
+      localStorage.setItem("fcph-session", JSON.stringify(keep(d)));
+      await spare(email, pass);
+      try { window.umami && umami.track("SpotFolk door: logged in"); } catch {}
+      msg.className = "msg ok"; msg.textContent = "You're in. Opening your SpotFolk…";
+      arrive();
+    } catch (err) {
+      msg.className = "msg warn";
+      msg.textContent = /invalid|credentials|grant/i.test(err.message) ? "Wrong email or password."
+        : /not confirmed/i.test(err.message) ? "Please confirm your email first: check your inbox."
+        : /rate|too many|seconds/i.test(err.message) ? "Too many attempts. Please wait a few minutes and try again."
+        : `Login failed (${err.message}).`;
+      busy(f, false, "Log in →");
+    }
+  });
+  $("#doorJoin").addEventListener("submit", async e => {
+    e.preventDefault();
+    const f = e.currentTarget, msg = f.querySelector(".msg");
+    const first = $("#djFirst").value.trim(), last = $("#djLast").value.trim(), email = $("#djEmail").value.trim(), pass = $("#djPass").value;
+    const styles = [...f.querySelectorAll("#djFolks input:checked")].map(i => i.value);
+    msg.className = "msg warn";
+    if (!first || !last) return void (msg.textContent = "Please enter your first and last name.");
+    if (!okMail(email)) return void (msg.textContent = "Please enter a valid email address.");
+    if (pass.length < 8) return void (msg.textContent = "The password needs at least 8 characters.");
+    if (!styles.length) return void (msg.textContent = "Pick your folk: at least one.");
+    if (!$("#djOk").checked) return void (msg.textContent = "Please accept the code, the terms and the privacy policy.");
+    busy(f, true, "Lighting the fire…"); msg.className = "msg"; msg.textContent = "";
+    try {
+      const d = await auth("signup", { email, password: pass, data: { first_name: first, last_name: last, full_name: `${first} ${last}`.trim(), travel_style: styles } });
+      try { window.umami && umami.track("SpotFolk door: signed up", { folk: styles.join(",") }); } catch {}
+      try { localStorage.setItem("fcph-conduct-ok", "1"); } catch {}
+      if (d && d.access_token) {
+        localStorage.setItem("fcph-session", JSON.stringify(keep(d)));
+        await spare(email, pass);
+        msg.className = "msg ok"; msg.textContent = "Welcome, folk! Opening your SpotFolk…";
+        return arrive();
+      }
+      if (d && (d.id || d.user) && !(d.identities && d.identities.length === 0)) {
+        msg.className = "msg ok"; msg.textContent = "Almost done: check your inbox and click the link to confirm your email.";
+        return busy(f, true, "Check your inbox");
+      }
+      throw new Error("already registered");
+    } catch (err) {
+      msg.className = "msg warn";
+      msg.textContent = /already|registered|exists/i.test(err.message) ? "This email is already folk. Log in instead."
+        : /not allowed|disabled|signups/i.test(err.message) ? "Sign-ups are closed right now. Please write to me."
+        : /password/i.test(err.message) ? "Please choose a stronger password."
+        : /rate|too many|seconds/i.test(err.message) ? "Too many attempts. Please wait a few minutes and try again."
+        : `Sign-up failed (${err.message}).`;
+      busy(f, false, "Become folk — free →");
+    }
+  });
+  $("#wpLogout").addEventListener("click", async e => {
+    e.preventDefault();
+    try { if (session) await fetch(SB + "/auth/v1/logout", { method: "POST", headers: { apikey: KEY, Authorization: "Bearer " + session.access_token } }); } catch {}
+    try { localStorage.removeItem("fcph-session"); localStorage.removeItem(HANDOFF); } catch {}
+    location.replace(location.pathname);
+  });
+  // first link to fabiocostaph.com after logging in here: carry the spare session, so you're logged in there too
+  document.addEventListener("click", e => {
+    const a = e.target.closest('a[href^="https://fabiocostaph.com"]'); if (!a || !me) return;
+    let rt = null; try { rt = localStorage.getItem(HANDOFF); } catch {}
+    if (!rt) return;
+    e.preventDefault();
+    try { localStorage.removeItem(HANDOFF); } catch {}
+    const u = new URL(a.href), to = u.hash.slice(1).replace(/[^\w-]/g, "");
+    u.hash = `sfh=${encodeURIComponent(rt)}${to ? `&to=${to}` : ""}`;
+    if (a.target === "_blank") window.open(u.href, "_blank", "noopener"); else location.href = u.href;
+  }, true);   // capture: map popups stop clicks from bubbling
+  (async () => { try { const n = +(await api("/rest/v1/rpc/members_count", { method: "POST", body: {} })); if (n && n < 100) { $("#djFound").textContent = `🏅 ${100 - n} of 100 Founding folk numbers left: yours for good.`; $("#djFound").hidden = false; } } catch {} })();
 
   startFolk().then(() => loadSpots());
 })();
