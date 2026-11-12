@@ -3,6 +3,8 @@
 # Copies the site from fabiocostaph-ph (in ./_src) into this repo, keeping this repo's own files.
 set -euo pipefail
 SRC="${1:-_src}"
+# never sync from a missing or empty source: it would delete the whole site
+[ -f "$SRC/index.html" ] && [ -f "$SRC/spots.js" ] || { echo "sync: source $SRC is missing, nothing done" >&2; exit 1; }
 python3 - "$SRC" <<'PY'
 import os, shutil, sys
 src = sys.argv[1]
