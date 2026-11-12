@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071c29">
+  <!-- «Aggiungi a schermata Home»: si apre come un'app, a tutto schermo, e gira con il telefono -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Fabio Costa Ph">
+  <title>SpotFolk — the community map</title>
+  <meta name="author" content="Fabio Costantini" id="metaAuthor">
+  <meta name="description" content="Places scouted with a photographer's eye, signed by the folk who go. A free travel community: places, trips, Pass it on and Field Notes.">
+  <link rel="canonical" href="https://spotfolk.eu/">
+  <!-- anteprima quando si condivide il link (WhatsApp, Instagram, Facebook, X, Telegram…) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SpotFolk">
+  <meta property="og:url" content="https://spotfolk.eu/">
+  <meta property="og:title" content="SpotFolk — the community map">
+  <meta property="og:description" content="Every place here was signed by someone who's been. Find your folk — free.">
+  <meta property="og:image" content="https://spotfolk.eu/og-spotfolk.jpg?v=1">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="SpotFolk — the map, signed by the folk">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SpotFolk — the community map">
+  <meta name="twitter:description" content="Every place here was signed by someone who's been. Find your folk — free.">
+  <meta name="twitter:image" content="https://spotfolk.eu/og-spotfolk.jpg?v=1">
+  <!-- icone -->
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="img/icon-512.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <!-- per Google: chi è l'autore e cos'è il sito -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[
+    {"@type":"WebSite","@id":"https://fabiocostaph.com/#website","url":"https://fabiocostaph.com/","name":"Fabio Costa Ph","inLanguage":"en","publisher":{"@id":"https://fabiocostaph.com/#fabio"}},
+    {"@type":"Person","@id":"https://fabiocostaph.com/#fabio","name":"Fabio Costantini","alternateName":"Fabio Costa Ph","jobTitle":"Photographer","url":"https://fabiocostaph.com/","image":"https://fabiocostaph.com/img/icon-512.png","sameAs":["https://www.instagram.com/fabiocostaph/"]}
+  ]}
+  </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://server.arcgisonline.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Oswald:wght@500;700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap">
+  <link rel="stylesheet" href="style.css?v=20261112a">
+  <!-- statistiche anonime, senza cookie (Umami): le pagine e i clic li segnala app.js -->
+  <script>
+  /* single login with spotfolk.eu: a link from there can carry a one-time session of its own (#sfh=…).
+     It is saved here and removed from the address at once, so it never stays in the bar or in the history. */
+  (function () {
+    var h = location.hash.slice(1); if (h.indexOf("sfh=") < 0) return;
+    var p = new URLSearchParams(h), rt = p.get("sfh"), to = p.get("to") || "";
+    try { if (rt) localStorage.setItem("fcph-session", JSON.stringify({ access_token: "", refresh_token: rt, expires_at: 0 })); } catch (e) {}
+    history.replaceState(null, "", location.pathname + location.search + (to ? "#" + to.replace(/[^\w-]/g, "") : ""));
+  })();
+  </script>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="2ca8d3a5-91c1-4544-a327-d8469e3e4313" data-auto-track="false" data-domains="fabiocostaph.com,www.fabiocostaph.com,spotfolk.eu,www.spotfolk.eu" id="umamiTag"></script>
+  <script>
+  /* SpotFolk on its own: the same site runs on spotfolk.eu showing only SpotFolk (map, passport, sign-up).
+     For testing on any copy: ?sfmode=1 turns it on in this browser, ?sfmode=0 turns it off. */
+  (function () {
+    var on = /(^|\.)spotfolk\.eu$/.test(location.hostname);
+    try {
+      var q = location.search.match(/[?&]sfmode=([01])/);
+      if (q) { q[1] === "1" ? localStorage.setItem("sf-mode", "1") : localStorage.removeItem("sf-mode"); history.replaceState(null, "", location.pathname + location.hash); }
+      if (localStorage.getItem("sf-mode") === "1") on = true;
+    } catch (e) {}
+    if (!on) return;
+    document.documentElement.classList.add("sf");
+    document.title = "SpotFolk — the community map";
+    var u = document.getElementById("umamiTag"); if (u) u.setAttribute("data-tag", "spotfolk");
+  })();
+  </script>
+  <script>
+  /* SpotFolk opens on the 3D Earth: start downloading the globe engine right away, alongside the rest of the page */
+  (function () {
+    var sf = document.documentElement.classList.contains("sf");
+    if (!sf && !/^#(spotfolk|wayfolk|spots|join|me)(-|$)/.test(location.hash)) return;
+    try { var ui = localStorage.getItem("fcph-spots-ui"), m = localStorage.getItem("fcph-spots-mode"); if (ui === "classic" || (m && m !== "globe")) return; } catch (e) {}
+    var b = "https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.";
+    [["script", "js"], ["style", "css"]].forEach(function (x) { var l = document.createElement("link"); l.rel = "preload"; l.as = x[0]; l.href = b + x[1]; document.head.appendChild(l); });
+  })();
+  </script>
+</head>
+<body>
+<!--BODY-START-->
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Fabio Costa Ph, home">
+      <img class="brand-mark" src="img/logo.png" width="288" height="192" alt="">
+      <span class="brand-text"><strong>Fabio Costa Ph</strong><small>PHOTOGRAPHY · TRAVEL · EXPLORATION</small></span>
+    </a>
+    <span class="header-divider" aria-hidden="true"></span>
+    <nav id="mainNav" aria-label="Sections">
+      <a href="#home" data-page="home">HOME</a>
+      <a href="#explore" data-page="explore">EXPLORE</a>
+      <a href="#gallery" data-page="gallery">GALLERY</a>
+      <a href="#journal" data-page="journal">JOURNAL</a>
+      <a href="#tools" data-page="tools">TOOLS</a>
+      <a href="#spotfolk" data-page="spots" class="nav-spots"><img class="nav-wf" src="img/spotfolk-mark.png" alt="" width="96" height="59">SPOTFOLK</a>
+      <a href="#about" data-page="about">ABOUT</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button" id="searchToggle" type="button" aria-label="Search for a place or a photo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+      </button>
+      <button type="button" class="hd-login sf-guest-only" id="hdLogin" aria-label="Log in"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>Log in</span></button>
+      <a class="hd-me sf-folk-only" href="#me" id="hdMe" title="Your passport" aria-label="Your passport"><i data-me-i>F</i></a>
+      <button type="button" class="hd-out sf-folk-only" id="hdLogout" title="Log out" aria-label="Log out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H3"/></svg></button>
+      <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="sf-top" id="sfTop"><a href="https://fabiocostaph.com/"><img src="img/logo.png" alt="" width="288" height="192"><span>Fabio Costa Ph</span></a><span class="sf-born">A community born from the map of photographer Fabio Costantini</span></div>
+  <header class="sf-bar" id="sfBar">
+    <a class="sf-logo" href="#spotfolk" aria-label="SpotFolk, the map"><img src="img/spotfolk-logo.png" alt="SpotFolk" width="640" height="365"></a>
+    <nav class="sf-nav" aria-label="SpotFolk">
+      <a class="sf-map" href="#spotfolk" data-sfscroll="spots"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/></svg>The map</a>
+      <a class="sf-folk-only" href="#me">Your passport</a>
+      <a href="#spotfolk" data-sfscroll="wfaFolk">The folk</a>
+      <a class="sf-guest-only" href="#spotfolk" data-sfscroll="wfaTips">Tips</a>
+      <a href="#spotfolk" data-sfscroll="wfaInside">Inside</a>
+      <a class="sf-guest-only" href="#spotfolk" data-sfscroll="wfaCode">Our code</a>
+      <a href="https://fabiocostaph.com/#journal" target="_blank" rel="noopener">Field Notes ↗</a>
+    </nav>
+    <div class="sf-acts" id="sfActs">
+      <button type="button" class="sf-btn sf-line sf-guest-only" id="sfLogin">Log in</button>
+      <a class="sf-btn sf-fire sf-guest-only" href="#join">Become folk</a>
+      <a class="sf-me sf-folk-only" href="#me" id="sfMe"><i id="sfMeI">F</i><span>Your passport</span></a>
+      <button type="button" class="sf-out sf-folk-only" id="sfLogout" title="Log out" aria-label="Log out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H3"/></svg><span>Log out</span></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section class="page" id="home" data-page="home">
+      <div class="home-hero" id="homeHero">
+        <div id="homeMap" class="map map-home" aria-hidden="true"></div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-planet" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="hero-kicker">Photography · Travel · Exploration</p>
+          <h1>Fabio Costa Ph</h1>
+          <p class="hero-tagline">Field notes from planet Earth.</p>
+          <a class="hero-button" href="#explore"><span>EXPLORE THE PLACES</span> <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="hero-foot">
+          <p class="hero-coords" aria-live="off">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.6 3.5 5.4 3.5 8.5s-1 5.9-3.5 8.5c-2.5-2.6-3.5-5.4-3.5-8.5s1-5.9 3.5-8.5z"/></svg>
+            <span><strong id="heroPlace">EARTH</strong><span id="heroCoord">41.9028° N · 12.4964° E</span></span>
+          </p>
+          <button class="hero-scroll hero-scroll-label" type="button" id="heroScroll">
+            <svg viewBox="0 0 24 36" aria-hidden="true"><rect x="5" y="2" width="14" height="22" rx="7"/><path d="M12 7v4"/><path d="m8 30 4 4 4-4"/></svg>
+            <span>Scroll to explore fabiocostaph.com</span>
+          </button>
+          <p class="hero-tags">PHOTOGRAPHY<br>TRAVEL · EXPLORATION</p>
+          <div class="hero-news" id="heroNews" aria-live="polite" hidden></div>
+        </div>
+        <div class="news-legend" id="newsLegend" aria-label="What the spaceships mean" hidden></div>
+      </div>
+      <!-- SISTEMA SOLARE: ogni pianeta è una sezione, i satelliti le sottosezioni, le comete le novità (vedi system.js) -->
+      <div class="sys" id="homeSystem">
+        <header class="sys-head">
+          <span class="eyebrow">The fabiocostaph.com system</span>
+          <h2>Every planet is a part of the site.</h2>
+          <p class="sys-hint">Tap a planet and a ship comes to pick you up. <b>Planets</b> are sections, <b>moons</b> are what's inside, <b>comets</b> are what's new.</p>
+        </header>
+        <div class="sys-viewport" id="sysViewport">
+          <div class="sys-stage" id="sysStage" role="group" aria-label="The solar system of fabiocostaph.com"></div>
+        </div>
+        <p class="sys-swipe" aria-hidden="true">← Swipe to travel through the system →</p>
+        <div class="sys-card" id="sysCard" aria-live="polite" hidden></div>
+      </div>
+    </section>
+
+    <!-- EXPLORE -->
+    <section class="page content-page" id="explore" data-page="explore" hidden>
+      <!-- EXPLORE: il pianeta è Marte -->
+      <header class="ex-head">
+        <div class="ex-planet" aria-hidden="true"></div>
+        <div class="ex-titlebox">
+          <svg class="ex-orbit" viewBox="0 0 420 140" aria-hidden="true"><path d="M12 112C40 150 250 128 350 64 398 34 404 10 372 8"/><circle cx="372" cy="10" r="9"/></svg>
+          <h1 class="ex-title">Explore</h1><span class="ex-slash" aria-hidden="true">///</span>
+        </div>
+        <div class="ex-intro"><span class="ex-eyebrow">PHOTOGRAPHIC EXPLORATION</span>
+          <p>Discover my journeys and the locations I've photographed around the world.</p></div>
+      </header>
+      <div class="explore-stage">
+        <div id="exploreMap" class="map map-explore" aria-label="Interactive travel map"></div>
+        <button class="map-search" id="mapSearch" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+          Search a place
+        </button>
+        <svg class="compass compass-small" viewBox="0 0 100 100" aria-hidden="true"><use href="#compassShape"/></svg>
+        <span class="hud-frame" aria-hidden="true"></span>
+        <div class="ex-tabs" aria-label="Map lists">
+          <button type="button" class="ex-tab" data-exlist="journeys" aria-controls="locationPanel" aria-expanded="false" title="Journeys">
+            <svg class="ex-tab-ic lander" viewBox="0 0 46 50" aria-hidden="true"><path d="M12 14h22l3 14H9z"/><path d="M17 17h12v6H17z"/><path d="M11 28 5 41M35 28l6 13M17 28l-3 13M29 28l3 13M2 41h7M37 41h7M15 14l2-5h12l2 5M30 9l6-6"/></svg>
+            <span>Journeys</span><small>(Landers)</small></button>
+          <button type="button" class="ex-tab rov" data-exlist="locations" aria-controls="locationPanel" aria-expanded="false" title="Locations">
+            <svg class="ex-tab-ic dot" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><circle cx="20" cy="20" r="5.5" class="f"/></svg>
+            <span>Locations</span><small>(Places)</small></button>
+          <button type="button" class="ex-tab-toggle" id="exToggle" aria-controls="locationPanel" aria-expanded="false" aria-label="Open the list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+        </div>
+        <aside class="location-panel ex-drawer" id="locationPanel" aria-live="polite" aria-hidden="true" inert></aside>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="page content-page" id="gallery" data-page="gallery" hidden>
+      <!-- GALLERY: il pianeta è Venere (vedi il sistema solare della home) -->
+      <header class="gl-head">
+        <svg class="gl-sym" viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="56" class="o1"/><circle cx="60" cy="60" r="40" class="o2"/>
+          <circle cx="60" cy="4" r="2.6" class="dot"/><circle cx="4" cy="60" r="2.2" class="dot"/><circle cx="116" cy="60" r="2.2" class="dot"/><circle cx="60" cy="100" r="2" class="dot"/>
+          <circle cx="60" cy="50" r="15" class="v"/><path d="M60 65v23M50 78h20" class="v"/>
+        </svg>
+        <div class="gl-text"><h1 class="gl-title">Gallery</h1><p class="gl-sub">Take your Jetpack and Explore</p></div>
+        <div class="gl-planet" aria-hidden="true"></div>
+      </header>
+      <div class="gl-filters filters" id="galleryFilters" role="group" aria-label="Filter by category"></div>
+      <section class="gl-journeys" id="galleryJourneys" aria-label="Journeys" hidden></section>
+      <nav class="gallery-collections" id="galleryCollections" aria-label="Collections" hidden></nav>
+      <div class="gl-bar">
+        <span class="trip-chip" id="tripChip" hidden></span>
+        <p class="photo-count" id="photoCount"></p>
+        <div class="gl-view" role="group" aria-label="View">
+          <button type="button" class="gl-vbtn on" data-view="grid" aria-label="Grid" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></button>
+          <button type="button" class="gl-vbtn" data-view="list" aria-label="List" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg></button>
+        </div>
+      </div>
+      <div class="photo-grid" id="photoGrid"></div>
+      <p class="empty-state" id="galleryEmpty" hidden>No photographs match these filters yet.</p>
+      <aside class="license-note gl-license" id="licenseNote" hidden></aside>
+    </section>
+
+    <!-- JOURNAL -->
+    <section class="page content-page" id="journal" data-page="journal" hidden>
+      <div class="mag fn" id="journalMag">
+        <div class="fn-layout">
+          <div class="fn-main">
+            <header class="fn-heading"><h1>Field Notes</h1><span class="fn-slash" aria-hidden="true"></span><p class="fn-tagline">Field Notes from Earth</p></header>
+            <nav class="fn-modes" aria-label="Journal view">
+              <a href="#journal" data-jmode="journal">All stories</a>
+              <a href="#magazine" data-jmode="magazine"><span class="fn-modes-dot" aria-hidden="true"></span>This month's issue</a>
+              <a href="#guides" data-jmode="guides">Guides</a>
+            </nav>
+            <div class="journal-layout" id="journalLayout"></div>
+            <article class="full-article mag-article" id="articleReader" hidden></article>
+          </div>
+          <aside class="fn-side">
+            <p class="fn-side-label">Topics</p>
+            <nav class="fn-nav" id="fnTopics" aria-label="Topics"></nav>
+            <p class="fn-side-label">Quick navigation</p>
+            <nav class="fn-nav" aria-label="Site">
+              <a href="#home">Home</a><a href="#explore">Explore</a><a href="#gallery">Gallery</a><a href="#journal" class="active">Journal</a><a href="#tools">Tools</a><a href="#spotfolk">SpotFolk</a><a href="#crew">The crew</a><a href="#about">About</a>
+              <a href="#write" class="fn-write">✍ Write for the Journal</a>
+            </nav>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLS (calcolatori: sole, luna, notti buie — vedi tools.js) -->
+    <section class="page content-page" id="tools" data-page="tools" hidden>
+      <div class="section-heading">
+        <div><span class="eyebrow">PLAN THE LIGHT</span><h1>Tools</h1></div>
+        <p>Plan the light: sun and moon times, a 3D planner with the real horizon, and a shooting plan from your test shot — wherever you are, or wherever you're going.</p>
+      </div>
+      <div id="toolsRoot"></div>
+    </section>
+
+    <!-- SPOTS (solo membri: i dati arrivano da Supabase, vedi spots.js) -->
+    <section class="page content-page" id="spots" data-page="spots" hidden>
+      <div class="section-heading">
+        <div><span class="eyebrow">COMMUNITY MAP</span><h1>SpotFolk</h1></div>
+        <p>The travel toolkit built by travellers: places signed by the folk, trips, Pass it on, food and places to stay — on one satellite map.</p>
+      </div>
+      <div id="spotsRoot"></div>
+    </section>
+
+    <!-- GUIDA: come funziona il sito -->
+    <section class="page content-page" id="guide" data-page="guide" hidden>
+      <div class="section-heading">
+        <div><span class="eyebrow">FIELD MANUAL</span><h1>How it works</h1></div>
+        <p>Fabio Costa Ph is three things: a portfolio of my photographs, free tools to plan the light, and SPOTFOLK — the travel community where members share and sign the places worth the trip. Here's how to get the most out of it.</p>
+      </div>
+      <div class="guide-downloads">
+        <span class="eyebrow">ONE-PAGE GUIDES · PDF</span>
+        <a href="guides/site-quick-guide.pdf" target="_blank" rel="noopener" download>📄 The site in one page</a>
+        <a href="guides/spots-quick-guide.pdf" target="_blank" rel="noopener" download>📄 SpotFolk in one page</a>
+        <a href="guides/contributors-quick-guide.pdf" target="_blank" rel="noopener" download>📄 Contributors in one page</a>
+      </div>
+      <nav class="guide-toc" aria-label="Guide sections">
+        <a href="#guide-explore">Explore</a><a href="#guide-gallery">Gallery</a><a href="#guide-journal">Field Notes</a>
+        <a href="#guide-tools">Tools</a><a href="#guide-spots">SpotFolk</a><a href="#guide-app">App &amp; languages</a>
+      </nav>
+      <div class="guide">
+        <article class="guide-card" id="guide-explore">
+          <span class="guide-num">01</span><h2>Explore</h2>
+          <p>An interactive map of my journeys. Every astronaut is a place I've photographed.</p>
+          <ul>
+            <li>Tap an astronaut to open the place: photos, notes and the story behind it.</li>
+            <li>Use the <b>search</b> (magnifier, top right) to find places, photos and articles.</li>
+          </ul>
+        </article>
+        <article class="guide-card" id="guide-gallery">
+          <span class="guide-num">02</span><h2>Gallery</h2>
+          <p>All my photographs, filterable by category.</p>
+          <ul>
+            <li>Tap a photo to open it full screen. On a phone, turn it sideways or use the rotate button.</li>
+            <li>Tap the <b>heart</b> on the photos you like to build a selection, then send it to me in one message.</li>
+            <li>Every photo is available for <b>licensing</b> (editorial and commercial) and as a <b>fine-art print</b>.</li>
+          </ul>
+        </article>
+        <article class="guide-card" id="guide-journal">
+          <span class="guide-num">03</span><h2>Field Notes</h2>
+          <p>The travel magazine of the site, written by me and by the SpotFolk folk: practical stories, not poetry — when to go, where to park, how long the walk is, what settings to use and the mistakes to avoid.</p>
+          <ul>
+            <li><b>All stories</b> — every article, filtered by topic: reportage, places, current affairs, photography and technique, practical guides.</li>
+            <li><b>This month's issue</b> — the magazine builds itself: every month the published stories become an issue of <em>Field Notes From Planet Earth</em>, with its cover, to read on the site or download as a PDF.</li>
+            <li><b>Guides</b> — places zone by zone: what to see, when to go, where to stop, with a printable PDF and a PDF map that links every point to Google Maps.</li>
+            <li><b>Every folk can write</b> — tap <b>✍ Write for Field Notes</b>, send your story with your photos, and once it's published you become a co-author of the magazine: your byline carries your name and your folk, and the story goes into that month's issue.</li>
+            <li><b>Folk of the month</b> — every issue tells the story of one member of the community.</li>
+          </ul>
+        </article>
+        <article class="guide-card" id="guide-tools">
+          <span class="guide-num">04</span><h2>Tools</h2>
+          <p>Free tools to plan a shoot, wherever you are or wherever you're going.</p>
+          <ul>
+            <li><b>Sun &amp; Moon</b> — search a place or tap <b>Near me</b>, pick a date: sunrise and sunset, golden and blue hour, twilight, moon phase and the Milky Way core.</li>
+            <li><b>Planner</b> — a 3D map with the real terrain: see where the sun, the moon and the Milky Way rise and set behind the mountains. Drag to rotate, move the time and follow them across the sky.</li>
+            <li><b>Analyze your shot</b> — load a test shot and get a shooting plan: exposure, maximum shutter speed for sharp stars, bracketing and stacking. The photo never leaves your device.</li>
+          </ul>
+        </article>
+        <article class="guide-card wide" id="guide-spots">
+          <span class="guide-num">05</span><h2>SpotFolk</h2>
+          <p>The travel toolkit built by travellers: 8,000+ photo spots and points of interest scouted with a photographer's eye (many from research for future trips, waiting for someone to confirm them), places to eat and sleep, trails, trips and Pass it on — added, signed and reviewed by the community.</p>
+          <div class="guide-cols">
+            <div>
+              <h3>Visitors and members</h3>
+              <ul>
+                <li><b>Everyone</b> sees a free preview: one spot every ~15 km, in an approximate position.</li>
+                <li><b>Members</b> see every spot with its exact location, photos, reviews, real prices and live alerts — and can add their own.</li>
+                <li><b>Joining is free:</b> go to <a href="#join">fabiocostaph.com/#join</a>, enter your name, email and a password. You're in straight away.</li>
+              </ul>
+              <h3>Finding places</h3>
+              <ul>
+                <li>Search a spot or a town, or tap <b>Near me</b> and choose the radius (1–50 km).</li>
+                <li>Filter by category, show or hide places with alerts, or only Support local.</li>
+              </ul>
+              <h3>Folk and signatures</h3>
+              <ul>
+                <li><b>Choose your folk</b> when you join (you can pick more than one): Photo, Hiker, Backpacker, Road trip, Nomad, Foodie. Change them any time from <b>My profile</b>.</li>
+                <li><b>Sign a place</b> you've been to and recommend: “✍ Sign as hiker folk”, with a one-line tip if you like. Each place shows who signed it (“📷 12 · 🥾 4”), and reviews show the rating of each folk.</li>
+                <li><b>★ Fabio's pick</b> marks the places I recommend most. Members who sign many places in one area can become <b>Local experts</b>.</li>
+              </ul>
+              <h3>Trips and Pass it on</h3>
+              <ul>
+                <li><b>Trips</b> (in Community): tap the map, or right-click on a computer, for every stop, and say how you got there — on foot, scooter, train, boat. Start and arrival show on the map and on the globe.</li>
+                <li><b>Pass it on</b>: leaving and can't take something home? Sell it or give it away to the travellers arriving after you. Deals are only between members: SpotFolk takes no payments.</li>
+              </ul>
+              <h3>Adding and updating</h3>
+              <ul>
+                <li><b>Add a place</b>: only category, name and coordinates are required. Photos, description and community notes are optional.</li>
+                <li><b>Workshops</b>: add dates, places in total, booked so far, price, a link and any special offer. Update the bookings any time from the workshop's card. It disappears from the map on the day it starts.</li>
+                <li><b>Trekking</b>: put the pin on the <b>starting point</b> of the trail, so treks are easy to tell apart from viewpoints. Add difficulty (T, E, EE, EEA), time, length, elevation gain and where to park: the average slope is worked out for you.</li>
+                <li>On any place you can add photos, write a review (with what you paid for food and stays) or report a problem.</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Categories</h3>
+              <ul class="guide-legend"><li><span class="spot-pin " style="--c:#9cc8ff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5h3.2l1.8-2.5h6l1.8 2.5H20V19H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span><span>Photo spots</span></li><li><span class="spot-pin " style="--c:#ffbe7a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3v18M4 3v5.5a2.5 2.5 0 0 0 5 0V3M17.5 21V3c-2.2 1.2-3.5 4-3.5 7.5V13h3.5"/></svg></span><span>Food &amp; drink</span></li><li><span class="spot-pin " style="--c:#d2b8ff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5v15M21 20v-6.5a3 3 0 0 0-3-3h-7.5V14M3 14h18M3 17.5h18"/><circle cx="7" cy="11.2" r="1.7"/></svg></span><span>Places to stay</span></li><li><span class="spot-pin " style="--c:#9fe3c8"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4M12 12.6l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3z"/></svg></span><span>Workshops</span></li><li><span class="spot-pin " style="--c:#f7a6c4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m2.5 20 6.5-11 4 6.5 2.5-3.5 6 8z"/><path d="M8 13.5l1.6 1.2M14.5 16l1.5-1"/><circle cx="17" cy="5.5" r="1.8"/></svg></span><span>Trekking</span></li></ul>
+              <h3>Signs on the map</h3>
+              <ul class="guide-legend"><li><span class="spot-pin " style="--c:#9cc8ff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5h3.2l1.8-2.5h6l1.8 2.5H20V19H4z"/><circle cx="12" cy="13" r="3.4"/></svg><span class="alert-dot"></span></span><span><b>Red dot</b> — live alert from members: closed, works or landslide, event, very crowded, danger.</span></li>
+<li><span class="spot-pin local" style="--c:#ffbe7a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3v18M4 3v5.5a2.5 2.5 0 0 0 5 0V3M17.5 21V3c-2.2 1.2-3.5 4-3.5 7.5V13h3.5"/></svg></span><span><b>Green ring</b> — Support local: villages and small businesses that live on visitors.</span></li>
+<li><span class="spot-pin shine-local" style="--c:#7ed69b"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-4 2.6-7 7.5-7.2C19.4 10.6 16.6 13 12 13z"/><path d="M12 15.5c0-3-2-5.3-6.5-5.5.1 3.7 2.3 5.5 6.5 5.5z"/></svg></span><span><b>Glowing leaf</b> — new in Support local (first month).</span></li>
+<li><span class="spot-pin shine" style="--c:#9fe3c8"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4M12 12.6l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3z"/></svg></span><span><b>Glowing icon</b> — new place or workshop (first 7 days). New and special places stay visible even when you zoom out.</span></li>
+<li><span class="spot-pin offer" style="--c:#ffc46e"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4M12 12.6l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3z"/></svg><span class="offer-tag">%</span></span><span><b>Glowing with %</b> — workshop with a special offer.</span></li>
+<li><span class="spot-pin plane" style="--c:#ffc46e"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19"/><path d="M3.8 13.6 6 15.4l12.3-3.3c1.2-.3 2-1.6 1.6-2.7-.3-.9-1.3-1.3-2.2-1.1l-3.6 1-5.4-4.6-2 .5 3 5.3-3.5 1-1.8-1.4-1.6.4z"/></svg></span><span><b>Plane</b> — workshop almost full: fewer than 3 places left.</span></li>
+<li><span class="spot-pin signed t2" style="--c:#9cc8ff;--fc:#7ee081"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5h3.2l1.8-2.5h6l1.8 2.5H20V19H4z"/><circle cx="12" cy="13" r="3.4"/></svg><span class="folk-badge" aria-hidden="true">🥾</span></span><span><b>Folk badge and ring</b> — signed by the folk: the badge shows the folk who signed it most; a coloured ring from 5 signatures, a glowing double ring from 15. <b>★</b> = Fabio's pick</span></li>
+<li><span class="spot-pin fragile" style="--c:#9cc8ff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5h3.2l1.8-2.5h6l1.8 2.5H20V19H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span><span><b>Dashed border</b> — Fragile place: leave no trace, no geotags.</span></li></ul>
+              <p class="guide-note">Many spots are places I've saved but not visited myself: always check access, rules and conditions before you go. Read the full notes below the map.</p>
+            </div>
+          </div>
+        </article>
+        <article class="guide-card wide" id="guide-app">
+          <span class="guide-num">06</span><h2>App &amp; languages</h2>
+          <div class="guide-cols">
+            <div>
+              <h3>Put it on your home screen</h3>
+              <ul>
+                <li><b>iPhone</b>: open the site in Safari, tap <b>Share</b>, then <b>Add to Home Screen</b>.</li>
+                <li><b>Android</b>: open the site in Chrome, tap <b>⋮</b>, then <b>Install app</b>.</li>
+                <li>It opens full screen and the Tools work offline — handy in the mountains with no signal.</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Your language</h3>
+              <ul>
+                <li>Tap the <b>globe</b> at the top to switch between English, Italiano, Español, Français and Deutsch.</li>
+              </ul>
+              <h3>Questions?</h3>
+              <ul><li>Write to me — the contacts are at the bottom of every page.</li></ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- THE CREW: contributor, developer e local expert -->
+    <section class="page content-page" id="crew" data-page="crew" hidden>
+      <div class="section-heading">
+        <div><span class="eyebrow">THE PEOPLE BEHIND SPOTFOLK AND THE JOURNAL</span><h1>The crew</h1></div>
+        <p>Writers, photographers, local experts and developers who help build this place. Each of them brings a valley, a craft or a story.</p>
+      </div>
+      <div class="crew-filters" id="crewFilters" role="group" aria-label="Filter the crew"></div>
+      <div class="crew-grid" id="crewGrid"><p class="empty-state">Loading…</p></div>
+      <p class="crew-join">Want to join? <button type="button" class="text-link" data-contribute="">Become a contributor →</button> · <a class="text-link" href="guides/contributors-quick-guide.pdf" target="_blank" rel="noopener">📄 Contributors in one page (PDF)</a></p>
+    </section>
+
+    <!-- PRIVACY e TERMINI (pagine richieste anche da Google per l'accesso con Google) -->
+    <section class="page content-page legal-page" id="privacy" data-page="privacy" hidden>
+      <div class="section-heading"><div><span class="eyebrow">PRIVACY NOTICE · ART. 13 GDPR · UPDATED 9 NOVEMBER 2026</span><h1>Privacy</h1></div>
+        <p>How fabiocostaph.com and SpotFolk (spotfolk.eu) use your personal data, why, for how long, and what you can do about it. No advertising, no tracking cookies, nothing sold to anyone.</p></div>
+      <div class="legal">
+      <h2>1. Data controller</h2>
+      <p>The controller is <b>Fabio Costantini</b> (Fabio Costa Ph), Italy, who runs both fabiocostaph.com and SpotFolk (spotfolk.eu). Contact for any privacy matter: <a href="mailto:fabio.costantini25491@gmail.com">fabio.costantini25491@gmail.com</a>.</p>
+      <p>No data protection officer has been appointed, as the law does not require one for this activity.</p>
+      <h2>2. What data I process</h2>
+      <ul>
+      <li><b>Browsing data</b> — the IP address and technical data that any browser sends to the services that deliver the site, maps and fonts (see section 5).</li>
+      <li><b>Statistics</b> — anonymous counts of visits and clicks (page, country, type of device), collected with Umami without cookies and without identifying you.</li>
+      <li><b>Account</b> — first name, last name, email, password (stored only in encrypted form), the folk you choose, the date you joined, and the date on which you declared you had read this notice and accepted the terms.</li>
+      <li><b>Profile (optional)</b> — username, photo, short bio, Instagram, website and an approximate area rounded to about 5 km.</li>
+      <li><b>What you share</b> — places, signatures, tips, reviews, photos, prices, alerts, trips, meetups, Pass it on notices (with the contact details you choose to write), flags and Field Notes articles.</li>
+      <li><b>Private to you</b> — saved places, the meetups you join and your activity history.</li>
+      <li><b>Position</b> — used only when you tap “Near me” or add something at your position; it is processed in your browser and stored only if you save a place, trip or notice there.</li>
+      <li><b>Messages</b> — what you write to me by email, in the feedback form or in a request to become a contributor.</li>
+      </ul>
+      <p>I don't process special categories of data (health, religion, political opinions and similar): please don't include them in what you write.</p>
+      <h2>3. Why, on what legal basis, for how long</h2>
+      <div class="legal-table"><table><thead><tr><th>Purpose</th><th>Legal basis</th><th>How long</th></tr></thead><tbody>
+      <tr><td>Showing the site and keeping it secure</td><td>Legitimate interest (art. 6.1.f)</td><td>Technical logs kept by the providers for their own short periods</td></tr>
+      <tr><td>Anonymous statistics</td><td>Legitimate interest (art. 6.1.f)</td><td>Only aggregated, anonymous figures</td></tr>
+      <tr><td>Creating and managing your SpotFolk account</td><td>Performance of the service you ask for (art. 6.1.b)</td><td>Until you delete your account</td></tr>
+      <tr><td>Showing what you share to the other members</td><td>Performance of the service (art. 6.1.b)</td><td>Until you delete it or your account; places stay on the map without your name</td></tr>
+      <tr><td>Moderation, flags, abuse, defending legal claims</td><td>Legitimate interest (art. 6.1.f)</td><td>As long as needed to handle them and any related claim</td></tr>
+      <tr><td>Answering your messages and requests</td><td>Your request (art. 6.1.b) and legitimate interest (art. 6.1.f)</td><td>Until the matter is closed, or until you ask me to delete them</td></tr>
+      <tr><td>Complying with the law and with authorities' requests</td><td>Legal obligation (art. 6.1.c)</td><td>As long as the law requires</td></tr>
+      </tbody></table></div>
+      <p>Pass it on notices disappear when they expire and are deleted 7 days later; meetups disappear on their date. Backups made by the database provider are overwritten within its normal cycle.</p>
+      <h2>4. Is providing data mandatory?</h2>
+      <p>Name, email and password are needed to create an account: without them you can only use the public map. Everything else (profile, photos, position, contacts in Pass it on) is optional.</p>
+      <h2>5. Who receives the data</h2>
+      <ul>
+      <li><b>Supabase Inc.</b> — database, login and file storage; it acts as processor on my behalf.</li>
+      <li><b>GitHub Inc.</b> — hosting of the two sites and of the downloadable PDFs.</li>
+      <li><b>Umami</b> — anonymous statistics, without cookies.</li>
+      <li><b>Map, font and data services</b> — Esri, NASA, OpenStreetMap, Komoot (Photon), Nominatim, Open-Meteo, Google Fonts, jsDelivr and cdnjs receive your IP address to deliver their content, as with any website.</li>
+      <li><b>Other members</b> — see your name next to what you share. Nothing you share is visible to visitors who are not members, except a selection of places shown on the public map without the author's name.</li>
+      <li><b>Authorities</b> — only when the law requires it.</li>
+      </ul>
+      <p>Data is never sold, rented or used for advertising or profiling.</p>
+      <h2>6. Transfers outside the EU</h2>
+      <p>Some providers (for example GitHub and Supabase) are based in the United States. Transfers rely on the EU–US Data Privacy Framework for certified providers or, otherwise, on the European Commission's Standard Contractual Clauses (art. 46 GDPR). You can ask me for information about these safeguards.</p>
+      <h2>7. Your rights</h2>
+      <p>You have the right to access your data, to have it corrected or deleted, to restrict its use, to receive it in a portable format and to object to processing based on legitimate interest (articles 15–22 GDPR).</p>
+      <p>You can delete your account yourself at any time: your page, Profile tab, “Delete my account”. For everything else write to the email above: I will reply within one month.</p>
+      <p>You can also lodge a complaint with the <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener">Garante per la protezione dei dati personali</a>.</p>
+      <h2>8. Cookies and storage on your device</h2>
+      <p>The sites use no advertising or profiling cookies. They save in your browser only technical settings: your login session, language, display choices and drafts. These are needed for the service and don't require consent; you can clear them from your browser at any time.</p>
+      <h2>9. Automated decisions and minors</h2>
+      <p>No decision about you is taken by automated means only, and no profiling is done. SpotFolk is for people aged 16 or over; selling items in Pass it on is for people aged 18 or over.</p>
+      <h2>10. Changes</h2>
+      <p>This notice may be updated: the date at the top shows the current version. If a change is significant, I will tell members on the site.</p>
+      </div>
+    </section>
+
+    <section class="page content-page legal-page" id="cookies" data-page="cookies" hidden>
+      <div class="section-heading"><div><span class="eyebrow">COOKIE POLICY · UPDATED 9 NOVEMBER 2026</span><h1>Cookies</h1></div>
+        <p>fabiocostaph.com and SpotFolk (spotfolk.eu) set no cookies: no advertising, no profiling, no tracking. They only keep a few technical settings in your browser, listed below.</p></div>
+      <div class="legal">
+      <h2>1. Who is responsible</h2>
+      <p>Fabio Costantini (Fabio Costa Ph), Italy — <a href="mailto:fabio.costantini25491@gmail.com">fabio.costantini25491@gmail.com</a>. For everything else about your data, see the privacy notice.</p>
+      <h2>2. Cookies</h2>
+      <p>The sites don't set any cookie, neither their own nor third-party ones. Visits are counted with Umami, which works without cookies and does not identify you. For this reason no cookie banner is shown and no consent is asked.</p>
+      <h2>3. What is kept in your browser</h2>
+      <p>Like an app, the sites save a few settings in your browser's local storage. They stay on your device, are not used to follow you on other sites and are not shared with anyone. They are technical tools needed for the service you ask for (art. 122 of the Italian Privacy Code and the Garante's cookie guidelines of 10 June 2021), so they need no consent.</p>
+      <div class="legal-table"><table><thead><tr><th>What</th><th>What it does</th><th>How long</th></tr></thead><tbody>
+      <tr><td>Login session</td><td>Keeps you logged in to SpotFolk, and passes the login once from one site to the other.</td><td>Until you log out</td></tr>
+      <tr><td>Language and display choices</td><td>Your language, map view (3D Earth, satellite, terrain), gallery layout, place chosen in Tools.</td><td>Until you change or clear them</td></tr>
+      <tr><td>Drafts and selections</td><td>What you are adding before you save it, your photo selection, the last category and list used.</td><td>Until you save, clear or send them</td></tr>
+      <tr><td>Notices already seen</td><td>Remembers notices you closed and the community code you accepted, so they don't come back each time.</td><td>Until you clear them; some come back after a few weeks</td></tr>
+      <tr><td>Folk chosen and entry link</td><td>Pre-selects in the sign-up form the folk you picked or the folk link you arrived from.</td><td>Until you clear it</td></tr>
+      <tr><td>Statistics opt-out</td><td>If you open the site with ?notrack, your visits are no longer counted.</td><td>Until you open it with ?track</td></tr>
+      <tr><td>Offline copy</td><td>A copy of the site's files and of the map's places, so it opens faster and some tools work offline.</td><td>Renewed with each update</td></tr>
+      </tbody></table></div>
+      <h2>4. Third-party services</h2>
+      <p>To show maps, satellite images, fonts and place names, your browser connects to Esri, NASA, OpenStreetMap, Komoot (Photon), Open-Meteo, Google Fonts, jsDelivr and cdnjs, which receive your IP address as with any website. They are used without cookies. Buttons such as “Open in Google Maps” or links to Instagram take you to those services, where their own cookie policies apply.</p>
+      <h2>5. How to clear them</h2>
+      <p>You can delete everything at any time from your browser's settings (site data or website storage for fabiocostaph.com and spotfolk.eu). You'll be logged out and the sites will go back to their default settings.</p>
+      <h2>6. Changes</h2>
+      <p>If the sites ever start using cookies that need consent, this page will be updated and your consent will be asked first.</p>
+      </div>
+    </section>
+
+    <section class="page content-page legal-page" id="terms" data-page="terms" hidden>
+      <div class="section-heading"><div><span class="eyebrow">LAST UPDATED 7 NOVEMBER 2026</span><h1>Terms</h1></div>
+        <p>The rules for using this site and the SpotFolk members' map. By joining SpotFolk, or by using any of its features, you accept them.</p></div>
+      <div class="legal">
+        <h2>The site</h2>
+        <p>Fabio Costa Ph is a personal photography site run by Fabio Costantini. All photographs and texts on the site are © Fabio Costantini unless stated otherwise: they may not be copied, downloaded or reused without written permission. Licences and prints are available on request. The magazine issues, guides and maps offered as PDFs are for your personal use only.</p>
+        <h2>SpotFolk membership</h2>
+        <ul>
+          <li>Membership is free and personal: don't share your account.</li>
+          <li>You must be 16 or older and give true details when you sign up. You must be 18 or older to sell items in Pass it on.</li>
+          <li>The service is offered free of charge and “as is”, without any guarantee that it is complete, accurate, available or free of errors. It may change, pause or end at any time, with or without notice, and content may be lost.</li>
+        </ul>
+        <h2>What you share</h2>
+        <ul>
+          <li>Members publish places, photos, reviews, prices, alerts, meetups, trips, Pass it on notices, articles and profiles on their own initiative and under their own responsibility. You are solely responsible for what you publish and for its consequences. I don't check content before it is published and I don't endorse it.</li>
+          <li>Share only accurate information, and only photos and texts that are yours or that you have the right to share. Photos must not show identifiable people without their consent. Don't publish other people's personal data.</li>
+          <li>You keep the copyright of your photos and texts. You give Fabio Costa Ph a free, non-exclusive permission to show them to members inside SpotFolk (and, for articles you submit, in the Journal); you can withdraw it at any time by deleting them.</li>
+          <li>No insults, spam, advertising disguised as reviews, or content that is illegal or puts people or places at risk. Follow the community code: leave no trace, protect fragile places, respect people and property.</li>
+        </ul>
+        <h2>Trips</h2>
+        <p>Trips are members' own accounts of journeys they made. They are not navigation, not route advice and not checked by me: roads, borders, transport, safety and local rules change, and a route that worked for someone may be unsafe, closed or illegal for you. Plan every journey yourself with up-to-date official sources, and travel at your own risk.</p>
+        <h2>Pass it on</h2>
+        <ul>
+          <li><b>What it is.</b> Pass it on is only a notice board where members can say that they sell or give away items to other members. Fabio Costa Ph is not the seller, the buyer, an agent, an intermediary or a guarantor. I never own, see, check, store, ship or deliver the items, I take no payment and no commission, and I am not a party to any agreement, sale, gift or exchange between members.</li>
+          <li><b>Your responsibility.</b> The member who publishes a notice is solely responsible for it: that the item is theirs, legal where it is offered and handed over, safe and as described, and for the price, the handover, any payment, taxes, customs rules and any obligation towards the other person. Pass it on is for private individuals passing on their own belongings; it may not be used to run a business or to sell on behalf of a business.</li>
+          <li><b>Not allowed.</b> Food and drinks, alcohol, tobacco and vapes, medicines, drugs and supplements, weapons, knives, ammunition and pepper sprays, explosives and flammables (including gas canisters and fuel), animals, plants and seeds, protected species and products made from them (such as coral, shells, ivory), antiquities and cultural goods, counterfeit, stolen or recalled items, SIM cards, tickets, passes and documents registered in someone's name, and anything that is illegal where it is offered or that breaks the rules of a country you cross.</li>
+          <li><b>Deal carefully.</b> Agree the details directly with the other person, meet in busy public places, check the item before paying, never pay in advance to people you don't know and never share documents or bank details. Contact details you publish are seen by members: share only what you are happy to share.</li>
+          <li><b>No responsibility.</b> To the fullest extent permitted by law, Fabio Costantini is not responsible for the items, for notices or their content, for the conduct of members, or for anything that happens between them, including fraud, non-payment, non-delivery, defects, damage, loss, theft, injury, fines, tax or customs consequences, or disputes. Any claim must be made directly against the other member.</li>
+          <li>I may remove notices and suspend accounts at any time, for example after a flag or a report.</li>
+        </ul>
+        <h2>Meetups, workshops and experiences</h2>
+        <p>Meetups are organised by members among themselves, and workshops and experiences by their organisers: Fabio Costa Ph is not the organiser, is not a party to any agreement or payment between you and them, and is not responsible for how they take place. Check the details directly with whoever organises them, and take part at your own risk.</p>
+        <h2>Safety and responsibility</h2>
+        <p>Many spots have not been visited by me, and information about locations, access, conditions, prices, opening hours and timings may be wrong or out of date. Always check current information, access rights, local rules, weather and your own abilities before you go. You visit any place, follow any trip, meet any member and take part in any activity entirely at your own risk.</p>
+        <p>To the fullest extent permitted by law, Fabio Costantini accepts no responsibility for injury, damage, loss, theft, fines or other direct or indirect consequences arising from the use of the site, of SpotFolk or of the content published by members, or from relations between members. Nothing in these terms excludes liability that cannot be excluded by law, such as liability for wilful misconduct or gross negligence (art. 1229 of the Italian Civil Code), or the rights that consumer law gives you.</p>
+        <p>You agree to hold Fabio Costantini harmless from claims by third parties caused by content you publish or by your breach of these terms or of the law.</p>
+        <h2>Reporting illegal content</h2>
+        <p>SpotFolk hosts content published by members. I don't monitor it in advance, but I act on reports: use the “⚑ Flag” button or write to <a href="mailto:fabio.costantini25491@gmail.com">fabio.costantini25491@gmail.com</a>, saying what the content is, where it is and why you think it is illegal or breaks these terms. I review reports promptly and may remove the content or suspend the account; the member concerned can ask me the reasons and contest the decision by writing to the same address.</p>
+        <h2>Privacy</h2>
+        <p>How your data is used is explained in the <a href="#privacy">privacy page</a>.</p>
+        <h2>Changes and law</h2>
+        <p>These terms may be updated; the date at the top shows the latest version, and continuing to use SpotFolk after a change means you accept it. They are governed by Italian law. Questions: <a href="mailto:fabio.costantini25491@gmail.com">fabio.costantini25491@gmail.com</a>.</p>
+      </div>
+    </section>
+
+    <!-- ABOUT (testi modificabili dal pannello: content/chi-sono.json) -->
+    <section class="page content-page" id="about" data-page="about" hidden>
+      <div class="section-heading"><div><span class="eyebrow">BEHIND THE LENS</span><h1>About Me</h1></div></div>
+      <div class="about-layout">
+        <figure class="about-portrait">
+          <div class="portrait-placeholder" id="aboutPortrait" aria-hidden="true">FC</div>
+          <figcaption><strong data-owner>Fabio Costantini</strong><span>Photographer</span></figcaption>
+          <div class="contact-links about-contact" data-contact aria-label="Contacts"></div>
+        </figure>
+        <div class="about-copy">
+          <h2 id="aboutTitle"></h2>
+          <div id="aboutIntro" class="rich"></div>
+          <ul class="interest-grid" id="aboutInterests"></ul>
+        </div>
+        <div class="about-photo" id="aboutPhoto" hidden>
+          <img class="about-landscape" id="aboutImage" alt="" data-cat="Paesaggi" loading="lazy">
+          <span class="hud-frame" aria-hidden="true"></span>
+        </div>
+      </div>
+      <div class="about-lower">
+        <blockquote id="aboutQuote"></blockquote>
+        <div><h3>My Gear</h3><div id="aboutGear" class="rich"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Diventa contributor: in fondo a ogni pagina -->
+  <aside class="crew-band" aria-label="Become a contributor">
+    <div class="crew-copy">
+      <span class="eyebrow">JOIN THE CREW</span>
+      <h2>Write, shoot, build with me.</h2>
+      <p>SpotFolk and the Journal are open to people who love these places. Contributing is free and unpaid for now — but it's not a one-way street. Here is what each role gets back.</p>
+      <p class="crew-all"><b>Everyone in the crew:</b> free SpotFolk membership forever, early access to new features, your name and links on everything you create, and a voice in what gets built next.</p>
+      <button type="button" class="outline-link crew-cta" data-contribute="">BECOME A CONTRIBUTOR <span aria-hidden="true">→</span></button>
+      <a class="text-link crew-meet" href="#crew">Meet the crew →</a>
+      <a class="text-link crew-meet" href="guides/contributors-quick-guide.pdf" target="_blank" rel="noopener">📄 Contributors in one page (PDF)</a>
+    </div>
+    <div class="crew-roles">
+      <button type="button" class="crew-role" data-contribute="writer"><b>✍️ Writer</b>
+        <span class="crew-what">Reportage and practical guides for Field Notes.</span>
+        <ul><li><b>Your byline</b> on every article, with your photo, Instagram and website</li>
+          <li><b>Editorial support</b>: I edit with you, from idea to layout</li>
+          <li><b>Promotion</b> in stories, posts and the home-page news for each piece</li>
+          <li>Translated into 5 languages, read by an international audience</li></ul></button>
+      <button type="button" class="crew-role" data-contribute="photographer"><b>📷 Photographer</b>
+        <span class="crew-what">Photo essays and the pictures behind the guides.</span>
+        <ul><li><b>Full credit</b> on every image, linked to your profile</li>
+          <li><b>You keep the copyright</b>: nothing is sold or reused without you</li>
+          <li><b>Contributor badge</b> and a special icon on the community map, glowing 3 days when you post</li>
+          <li>Your <b>author page</b> in the Journal with all your stories</li>
+          </ul></button>
+      <button type="button" class="crew-role" data-contribute="local"><b>🧭 Local expert</b>
+        <span class="crew-what">The trusted person for your valley or region.</span>
+        <ul><li><b>🧭 Badge</b> next to your name everywhere on SpotFolk</li>
+          <li><b>Verify places</b> and mark them outdated, fix their information</li>
+          <li><b>Look after your area</b>: Fragile, Support local and members' flags</li>
+          <li>Listed among the local experts, your workshops highlighted</li></ul></button>
+      <button type="button" class="crew-role" data-contribute="developer"><b>🛠️ Developer</b>
+        <span class="crew-what">Help build the next features of SpotFolk.</span>
+        <ul><li><b>Real product work</b>: maps, community tools, offline, apps</li>
+          <li><b>Developer badge</b> next to your name and your own icon on the community map, linking to your work</li>
+          <li><b>A say on the roadmap</b> — you help choose what comes next</li>
+          <li>A live project with real users for your portfolio</li></ul></button>
+    </div>
+  </aside>
+
+  <footer class="site-footer">
+    <span>© <span id="year"></span> <span class="owner-name" data-owner>Fabio Costantini</span> · FABIO COSTA PH · <span class="vat" data-no-i18n>P.IVA IT16670871009</span></span>
+    <span class="contact-links footer-contact" data-contact aria-label="Contacts"></span>
+    <span><a class="footer-guide" href="#guide">How it works</a> · <a class="footer-guide" href="#privacy">Privacy</a> · <a class="footer-guide" href="#cookies">Cookies</a> · <a class="footer-guide" href="#terms">Terms</a> · <a class="footer-guide" href="#crew">The crew</a> · <a class="footer-guide" href="#feedback" data-feedback>Feedback</a></span>
+  </footer>
+
+  <!-- Lightbox -->
+  <dialog id="zoomDialog" class="zm" aria-label="Photo">
+    <div class="zm-stage" id="zmStage"><img id="zmImg" alt=""></div>
+    <p class="zm-cap" id="zmCap"></p>
+    <span class="zm-count" id="zmCount"></span>
+    <button class="zm-btn zm-close" type="button" id="zmClose" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <button class="zm-btn zm-prev" type="button" id="zmPrev" aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+    <button class="zm-btn zm-next" type="button" id="zmNext" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+  </dialog>
+  <dialog id="photoDialog" class="pv" aria-labelledby="dialogTitle">
+    <header class="pv-top">
+      <a class="pv-brand" href="#home" data-pvnav><img src="img/logo.png" alt="" width="288" height="192"><span><strong>Fabio Costa Ph</strong><small>PHOTOGRAPHY · TRAVEL · EXPLORATION</small></span></a>
+      <div class="pv-topact">
+        <button class="pv-ic" type="button" id="pvSearch" aria-label="Search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></button>
+        <button class="pv-ic" type="button" id="pvMenu" aria-label="Menu" aria-expanded="false" aria-controls="pvMenuList"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      </div>
+      <nav class="pv-menu" id="pvMenuList" hidden>
+        <a href="#home" data-pvnav>Home</a><a href="#explore" data-pvnav>Explore</a><a href="#gallery" data-pvnav>Gallery</a><a href="#journal" data-pvnav>Journal</a><a href="#tools" data-pvnav>Tools</a><a href="#spotfolk" data-pvnav>SpotFolk</a><a href="#crew" data-pvnav>The crew</a><a href="#about" data-pvnav>About</a>
+      </nav>
+    </header>
+    <div class="pv-bar">
+      <button class="pv-back" type="button" id="pvBack"><span class="pv-circ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span><span>Back to gallery</span></button>
+      <div class="pv-tools">
+        <span class="pv-count" id="dialogCount"></span>
+        <button class="pv-ic" type="button" id="dialogInfo" aria-label="Details" title="Details (I)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/></svg></button>
+        <button class="pv-ic" type="button" id="dialogRotate" aria-label="Rotate photo" title="Rotate (R)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></button>
+        <button class="pv-ic" type="button" id="dialogFull" aria-label="Full screen" title="Full screen (F)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+        <button class="pv-ic" type="button" id="dialogClose" aria-label="Close" title="Close (Esc)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+    </div>
+    <div class="pv-stage" id="pvStage">
+      <img id="dialogImage" alt="">
+      <button class="pv-nav prev" id="dialogPrev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+      <button class="pv-nav next" id="dialogNext" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+      <div class="pv-fsbar"><span class="pv-count" id="pvFsCount"></span><button class="pv-ic" type="button" id="pvExitFs" aria-label="Exit full screen" title="Exit full screen (Esc)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg></button></div>
+    </div>
+    <div class="pv-actions photo-interest" id="photoInterest" hidden></div>
+    <div class="pv-thumbs" id="pvThumbs"></div>
+    <section class="pv-info" id="pvInfo">
+      <p class="pv-cat" id="dialogCategory"></p>
+      <h2 id="dialogTitle"></h2>
+      <p class="pv-place" id="dialogMeta"></p>
+      <p class="pv-coords" id="dialogCoords"></p>
+      <p class="pv-desc" id="dialogDescription"></p>
+      <dl class="pv-shot" id="pvShot" hidden></dl>
+      <div class="pv-facts" id="pvJourney"></div>
+      <button class="outline-link pv-map" id="dialogMapButton" type="button">VIEW ON MAP <span aria-hidden="true">→</span></button>
+    </section>
+  </dialog>
+
+  <!-- Ricerca -->
+  <dialog id="searchDialog" class="search-dialog" aria-label="Search">
+    <form id="searchForm" class="search-form" role="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+      <input id="searchInput" type="search" placeholder="Search a place, a journey or a photo… e.g. Rome" autocomplete="off" aria-label="Search">
+      <button class="icon-button" type="button" id="searchClose" aria-label="Close search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </form>
+    <div class="search-results" id="searchResults"></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="compassShape" viewBox="0 0 100 100"><g fill="none" stroke="currentColor"><circle cx="50" cy="50" r="30" stroke-width=".8" opacity=".6"/><circle cx="50" cy="50" r="22" stroke-width=".5" opacity=".4"/></g><g fill="currentColor"><path d="M50 8 54 46 50 50 46 46Z"/><path d="M50 92 46 54 50 50 54 54Z" opacity=".55"/><path d="M8 50 46 46 50 50 46 54Z" opacity=".55"/><path d="M92 50 54 54 50 50 54 46Z" opacity=".55"/></g><g font-size="9" fill="currentColor" text-anchor="middle" font-family="DM Sans, sans-serif"><text x="50" y="6">N</text><text x="50" y="100">S</text><text x="3" y="53">W</text><text x="97" y="53">E</text></g></symbol>
+  </svg>
+<!--BODY-END-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+  <script src="i18n.js?v=20261112a"></script>
+  <script src="app.js?v=20261112a"></script>
+  <script src="spots.js?v=20261112a"></script>
+  <script src="tools.js?v=20261112a"></script>
+  <script src="pwa.js?v=20261112a"></script>
+  <script src="feedback.js?v=20261112a"></script>
+  <script src="system.js?v=20261112a"></script>
+</body>
+</html>
