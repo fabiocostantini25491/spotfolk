@@ -9,7 +9,7 @@ python3 - "$SRC" <<'PY'
 import os, shutil, sys
 src = sys.argv[1]
 KEEP = {".git", ".github", "_src", "CNAME", "README.md", "sync.sh", "robots.txt", "og-spotfolk.jpg"}
-SKIP = KEEP | {"sitemap.xml", ".pages.yml", "pages-yml-da-copiare.txt", "spotfolk-prova.html", "wayfolk-prova.html"}
+SKIP = KEEP | {".claude", "sitemap.xml", ".pages.yml", "pages-yml-da-copiare.txt", "spotfolk-prova.html", "wayfolk-prova.html"}
 for name in os.listdir("."):            # remove what is no longer in the site (never this repo's own files)
     if name not in KEEP and not os.path.exists(os.path.join(src, name)):
         shutil.rmtree(name) if os.path.isdir(name) else os.remove(name)
